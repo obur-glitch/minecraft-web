@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Minecraft</title>
+
+  <script type="importmap">
+  { 
+    "imports": {
+      "three": "https://unpkg.com/three@0.160.0/build/three.module.js"
+    }
+  }
+  </script>
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="assets/ui/icon.png">
+</head>
+
+<body>
+  <!-- FPS sayacı (biyom adı da gösterilecek) -->
+  <div id="fpsCounter">FPS: 60</div>
+
+  <!-- Ana Menü -->
+  <div id="main-menu">
+    <div id="panorama"></div>
+    
+    <img id="game-logo" src="assets/gui/title/mınecraft.svg" alt="Minecraft Logo">
+
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+
+    <div class="menu-btn-wrapper" id="singleplayer-wrapper">
+      <img id="singleplayer-btn" class="menu-btn" src="assets/ui/button.png" alt="">
+      <span class="menu-btn-text">Singleplayer</span>
+    </div>
+
+    <div class="menu-btn-wrapper" id="createworld-wrapper">
+      <img id="createworld-btn" class="menu-btn" src="assets/ui/button.png" alt="">
+      <span class="menu-btn-text">New World</span>
+    </div>
+  </div>
+
+  <!-- Kırma çubuğu -->
+  <div id="break-ui" aria-hidden="true">
+    <div id="break-bar"></div>
+  </div>
+
+  <!-- Nişan -->
+  <img id="crosshair" src="assets/ui/crosshair.png" alt="crosshair" />
+
+  <!-- Hotbar -->
+  <div id="hotbar-container">
+    <div class="hotbar-slot slot" data-index="0"></div>
+    <div class="hotbar-slot slot" data-index="1"></div>
+    <div class="hotbar-slot slot" data-index="2"></div>
+    <div class="hotbar-slot slot" data-index="3"></div>
+    <div class="hotbar-slot slot" data-index="4"></div>
+    <div class="hotbar-slot slot" data-index="5"></div>
+    <div class="hotbar-slot slot" data-index="6"></div>
+    <div class="hotbar-slot slot" data-index="7"></div>
+  </div>
+
+  <!-- Envanter -->
+  <div id="inventory-screen" style="display:none;">
+    <h3>Envanter</h3>
+    <div class="inv-grid">
+      <div class="inv-slot" data-slot="0"></div>
+      <div class="inv-slot" data-slot="1"></div>
+      <div class="inv-slot" data-slot="2"></div>
+      <div class="inv-slot" data-slot="3"></div>
+      <div class="inv-slot" data-slot="4"></div>
+      <div class="inv-slot" data-slot="5"></div>
+      <div class="inv-slot" data-slot="6"></div>
+      <div class="inv-slot" data-slot="7"></div>
+      <div class="inv-slot" data-slot="8"></div>
+      <div class="inv-slot" data-slot="9"></div>
+      <div class="inv-slot" data-slot="10"></div>
+      <div class="inv-slot" data-slot="11"></div>
+      <div class="inv-slot" data-slot="12"></div>
+      <div class="inv-slot" data-slot="13"></div>
+      <div class="inv-slot" data-slot="14"></div>
+      <div class="inv-slot" data-slot="15"></div>
+      <div class="inv-slot" data-slot="16"></div>
+      <div class="inv-slot" data-slot="17"></div>
+      <div class="inv-slot" data-slot="18"></div>
+      <div class="inv-slot" data-slot="19"></div>
+      <div class="inv-slot" data-slot="20"></div>
+      <div class="inv-slot" data-slot="21"></div>
+      <div class="inv-slot" data-slot="22"></div>
+      <div class="inv-slot" data-slot="23"></div>
+      <div class="inv-slot" data-slot="24"></div>
+      <div class="inv-slot" data-slot="25"></div>
+      <div class="inv-slot" data-slot="26"></div>
+    </div>
+  </div>
+
+  <!-- Fırın -->
+  <div id="furnace-screen" style="display:none;">
+    <h2>Furnace</h2>
+    <div class="furnace-ui">
+      <div class="furnace-slot" id="furnace-input"></div>
+      <div class="furnace-slot" id="furnace-fuel"></div>
+      <div class="furnace-arrow">→</div>
+      <div class="furnace-slot" id="furnace-output"></div>
+    </div>
+    <button id="furnace-smelt">Smelt</button>
+  </div>
+
+  <!-- Craft ekranı -->
+  <div id="crafting-screen" style="display:none;">
+    <div class="craft-container">
+      <div id="recipe-panel"></div>
+      <div class="craft-body">
+        <div class="craft-grid"></div>
+        <div id="craft-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- El -->
+  <img id="player-hand" src="assets/ui/hand.png" alt="Hand">
+
+  <!-- Chat -->
+  <div id="chat">
+    <div id="chatMessages"></div>
+    <input id="chatInput" placeholder="Mesaj yaz..." />
+  </div>
+
+  <!-- Ayarlar -->
+  <div id="settingsMenu" style="display:none;">
+    <h2>Settings</h2>
+    <label>
+      Render Distance
+      <input type="range" id="renderDistance" min="2" max="8" value="3">
+    </label>
+    <label>
+      Mouse Sensitivity
+      <input type="range" id="mouseSensitivity" min="0.1" max="2" step="0.1" value="1">
+    </label>
+    <button id="closeSettings">Kapat</button>
+  </div>
+
+  <!-- Tooltip (JS tarafından oluşturulur) -->
+
+  <script type="module" src="main.js"></script>
+</body>
+</html>

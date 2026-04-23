@@ -1,0 +1,1056 @@
+/* ============================================================
+   HYPERS — MASTER STYLESHEET  v2
+   Minecraft retro bloklu UI — Glassmorphism kaldırıldı
+   Tamamen keskin kenarlı, 1px/2px gölgeli, #1e1e1e bazlı
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Press Start 2P', monospace;
+  background: #000;
+  color: #fff;
+  image-rendering: pixelated;
+}
+
+/* ── CSS VARIABLES — Minecraft dark palette ── */
+:root {
+  --gold:        #f5c842;
+  --gold-dark:   #c8952a;
+  --gold-glow:   rgba(245, 200, 66, 0.45);
+  --green-hud:   #4cfe88;
+  --blue-hud:    #4ab8ff;
+  --red-hud:     #ff4a4a;
+
+  /* UI taban rengi — glassmorphism yok, katı koyu gri */
+  --ui-base:     #1e1e1e;
+  --ui-dark:     #121212;
+  --ui-darker:   #0a0a0a;
+  --ui-light:    #2e2e2e;
+  --ui-mid:      #252525;
+
+  /* Slot */
+  --slot-bg:     #1a1a1a;
+  --slot-border: #3a3a3a;
+
+  /* Kenarlık şeritleri — Minecraft klasik bevel efekti */
+  --border-light: #5a5a5a;
+  --border-mid:   #3a3a3a;
+  --border-dark:  #111;
+
+  --px: 2px;
+  --radius: 0px;   /* Minecraft köşeli */
+}
+
+/* ═══════════════════════════════════════════════════════════
+   1. FPS COUNTER
+════════════════════════════════════════════════════════════ */
+#fpsCounter {
+  position: fixed;
+  top: 10px;
+  right: 14px;
+  font-size: 9px;
+  color: var(--green-hud);
+  text-shadow: 1px 1px 0 #000;
+  letter-spacing: 1px;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   2. CROSSHAIR
+════════════════════════════════════════════════════════════ */
+#crosshair {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  width: 24px;
+  height: 24px;
+  transform: translate(-50%, -50%);
+  image-rendering: pixelated;
+  pointer-events: none;
+  z-index: 9999;
+  display: none;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   3. BREAK / MINING UI
+════════════════════════════════════════════════════════════ */
+#break-ui {
+  position: fixed;
+  bottom: 92px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  height: 10px;
+  background: #0a0a0a;
+  border-top: 2px solid #555;
+  border-left: 2px solid #555;
+  border-right: 2px solid #111;
+  border-bottom: 2px solid #111;
+  overflow: hidden;
+  display: none;
+  z-index: 200;
+}
+
+#break-bar {
+  height: 100%;
+  width: 0%;
+  background: #f5c842;
+  transition: width 0.05s linear;
+  border-right: 1px solid #c8952a;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   4. HOTBAR
+════════════════════════════════════════════════════════════ */
+#hotbar-container {
+  position: fixed;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 3px;
+  background: var(--ui-dark);
+  padding: 5px;
+  border-top: 2px solid var(--border-light);
+  border-left: 2px solid var(--border-light);
+  border-right: 2px solid var(--border-dark);
+  border-bottom: 2px solid var(--border-dark);
+  z-index: 120;
+  pointer-events: none;
+}
+
+.hotbar-slot {
+  width: 50px;
+  height: 50px;
+  background: var(--slot-bg);
+  border-top: 2px solid #444;
+  border-left: 2px solid #444;
+  border-right: 2px solid #111;
+  border-bottom: 2px solid #111;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hotbar-slot img {
+  width: 38px;
+  height: 38px;
+  image-rendering: pixelated;
+  pointer-events: none;
+}
+
+.hotbar-slot.selected {
+  border-top: 2px solid var(--gold) !important;
+  border-left: 2px solid var(--gold) !important;
+  border-right: 2px solid var(--gold-dark) !important;
+  border-bottom: 2px solid var(--gold-dark) !important;
+  background: #252010;
+}
+
+/* ── Dayanıklılık çubuğu (slot içi, alt kısım) ── */
+.durability-bar {
+  position: absolute;
+  bottom: 2px;
+  left: 3px;
+  right: 3px;
+  height: 3px;
+  background: #111;
+  border: 1px solid #000;
+  overflow: hidden;
+}
+
+.durability-fill {
+  height: 100%;
+  transition: width 0.2s, background 0.2s;
+  image-rendering: pixelated;
+}
+
+/* ── item count label ── */
+.count-label {
+  position: absolute;
+  bottom: 6px;
+  right: 3px;
+  font-size: 8px;
+  color: #fff;
+  text-shadow: 1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;
+  pointer-events: none;
+  line-height: 1;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   5. INVENTORY SCREEN
+════════════════════════════════════════════════════════════ */
+#inventory-screen {
+  position: fixed;
+  top: 50%;
+  left: 30%;
+  transform: translate(-50%, -50%);
+  background: var(--ui-base);
+  padding: 16px;
+  border-top: 2px solid var(--border-light);
+  border-left: 2px solid var(--border-light);
+  border-right: 2px solid var(--border-dark);
+  border-bottom: 2px solid var(--border-dark);
+  z-index: 100;
+  display: none;
+}
+
+#inventory-screen h3 {
+  color: #fff;
+  font-size: 9px;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+  text-shadow: 1px 1px 0 #000;
+  text-transform: uppercase;
+}
+
+.inv-grid {
+  display: grid;
+  grid-template-columns: repeat(9, 48px);
+  gap: 3px;
+}
+
+.inv-slot {
+  width: 48px;
+  height: 48px;
+  background: var(--slot-bg);
+  border-top: 2px solid #444;
+  border-left: 2px solid #444;
+  border-right: 2px solid #111;
+  border-bottom: 2px solid #111;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.inv-slot:hover {
+  background: #2a2a2a;
+  border-top-color: #666;
+  border-left-color: #666;
+}
+
+.inv-slot img {
+  width: 36px;
+  height: 36px;
+  image-rendering: pixelated;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   6. CRAFTING SCREEN
+════════════════════════════════════════════════════════════ */
+#crafting-screen {
+  position: fixed;
+  top: 50%;
+  left: 70%;
+  transform: translate(-50%, -50%);
+  background: var(--ui-base);
+  padding: 18px;
+  border-top: 2px solid var(--border-light);
+  border-left: 2px solid var(--border-light);
+  border-right: 2px solid var(--border-dark);
+  border-bottom: 2px solid var(--border-dark);
+  z-index: 100;
+}
+
+.craft-container {
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+}
+
+#recipe-panel {
+  width: 220px;
+  height: 300px;
+  background: var(--ui-dark);
+  border-top: 2px solid #444;
+  border-left: 2px solid #444;
+  border-right: 2px solid #111;
+  border-bottom: 2px solid #111;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+  padding: 6px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #3a3a3a transparent;
+}
+
+#recipe-panel::-webkit-scrollbar { width: 4px; }
+#recipe-panel::-webkit-scrollbar-track { background: #111; }
+#recipe-panel::-webkit-scrollbar-thumb { background: #3a3a3a; }
+
+.recipe {
+  width: 44px;
+  height: 44px;
+  background: var(--slot-bg);
+  border-top: 2px solid #444;
+  border-left: 2px solid #444;
+  border-right: 2px solid #111;
+  border-bottom: 2px solid #111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+}
+
+.recipe img {
+  width: 34px;
+  height: 34px;
+  image-rendering: pixelated;
+}
+
+.recipe-result {
+  position: absolute;
+  bottom: 2px;
+  right: 3px;
+  font-size: 7px;
+  color: #fff;
+  text-shadow: 1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;
+}
+
+.recipe.can-craft {
+  border-top-color: #2eff88;
+  border-left-color: #2eff88;
+  background: #0d2017;
+}
+
+.recipe.can-craft:hover {
+  background: #142b1f;
+}
+
+.recipe.no-craft {
+  opacity: 0.4;
+}
+
+.recipe:hover {
+  border-top-color: var(--gold);
+  border-left-color: var(--gold);
+  background: #25200a;
+}
+
+.craft-body {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.craft-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 60px);
+  gap: 3px;
+}
+
+.craft-input {
+  width: 60px;
+  height: 60px;
+  background: var(--slot-bg);
+  border-top: 2px solid #444;
+  border-left: 2px solid #444;
+  border-right: 2px solid #111;
+  border-bottom: 2px solid #111;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.craft-input:hover {
+  background: #2a2a2a;
+}
+
+.craft-input img {
+  width: 44px;
+  height: 44px;
+  image-rendering: pixelated;
+}
+
+/* Arrow */
+.craft-arrow {
+  font-size: 16px;
+  color: var(--gold);
+  text-shadow: 1px 1px 0 #000;
+  padding: 0 4px;
+}
+
+#craft-result {
+  width: 66px;
+  height: 66px;
+  background: #1a1500;
+  border-top: 2px solid var(--gold);
+  border-left: 2px solid var(--gold);
+  border-right: 2px solid var(--gold-dark);
+  border-bottom: 2px solid var(--gold-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+}
+
+#craft-result:hover {
+  background: #221c00;
+}
+
+#craft-result img {
+  width: 50px;
+  height: 50px;
+  image-rendering: pixelated;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   7. FURNACE SCREEN
+════════════════════════════════════════════════════════════ */
+#furnace-screen {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--ui-base);
+  padding: 22px 26px;
+  border-top: 2px solid #6a4a2a;
+  border-left: 2px solid #6a4a2a;
+  border-right: 2px solid #2a1a0a;
+  border-bottom: 2px solid #2a1a0a;
+  z-index: 100;
+  display: none;
+  min-width: 280px;
+}
+
+#furnace-screen h2 {
+  font-size: 10px;
+  color: #ff8844;
+  text-shadow: 1px 1px 0 #000;
+  margin-bottom: 18px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.furnace-ui {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.furnace-slot {
+  width: 56px;
+  height: 56px;
+  background: #150e08;
+  border-top: 2px solid #6a4a2a;
+  border-left: 2px solid #6a4a2a;
+  border-right: 2px solid #2a1a0a;
+  border-bottom: 2px solid #2a1a0a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.furnace-slot:hover {
+  background: #1e1208;
+  border-top-color: #ff8844;
+  border-left-color: #ff8844;
+}
+
+.furnace-slot img {
+  width: 40px;
+  height: 40px;
+  image-rendering: pixelated;
+}
+
+.furnace-arrow {
+  font-size: 20px;
+  color: #ff8844;
+  text-shadow: 1px 1px 0 #000;
+}
+
+#furnace-smelt {
+  display: block;
+  width: 100%;
+  padding: 9px;
+  background: #3a1c0a;
+  border-top: 2px solid #8a5a3a;
+  border-left: 2px solid #8a5a3a;
+  border-right: 2px solid #1a0a02;
+  border-bottom: 2px solid #1a0a02;
+  color: #ffcc88;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+#furnace-smelt:hover {
+  background: #4a2212;
+  border-top-color: #c07040;
+  border-left-color: #c07040;
+}
+
+#furnace-smelt:active {
+  background: #2a1006;
+  border-top-color: #1a0a02;
+  border-left-color: #1a0a02;
+  border-right-color: #8a5a3a;
+  border-bottom-color: #8a5a3a;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   8. MAIN MENU
+════════════════════════════════════════════════════════════ */
+#main-menu {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 100000;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+#panorama {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: url("assets/gui/title/background/panorama_999.webp") center / cover;
+  animation: panoramaDrift 100s linear infinite;
+  z-index: -1;
+}
+
+#panorama::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+}
+
+@keyframes panoramaDrift {
+  0%   { transform: scale(1.08) translateX(0); }
+  50%  { transform: scale(1.08) translateX(-2%); }
+  100% { transform: scale(1.08) translateX(0); }
+}
+
+#menu-ui {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: center;
+}
+
+#game-logo {
+  width: 400px;
+  image-rendering: pixelated;
+  margin-bottom: 24px;
+  filter: drop-shadow(3px 3px 0 #000) drop-shadow(-1px -1px 0 #000);
+}
+
+/* Menu butonları */
+.menu-btn-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.menu-btn-wrapper:hover .menu-btn {
+  filter: brightness(1.2);
+}
+
+.menu-btn-wrapper:active .menu-btn {
+  filter: brightness(0.85);
+}
+
+.menu-btn {
+  width: 280px;
+  height: auto;
+  image-rendering: pixelated;
+}
+
+.menu-btn-text {
+  position: absolute;
+  color: #e0e0e0;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 12px;
+  text-shadow: 2px 2px 0 #383838;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Fallback text butonlar */
+#menu-ui button {
+  width: 260px;
+  height: 40px;
+  background: #3a3a3a;
+  border-top: 2px solid #666;
+  border-left: 2px solid #666;
+  border-right: 2px solid #111;
+  border-bottom: 2px solid #111;
+  color: #e8e8e8;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  text-shadow: 1px 1px 0 #000;
+}
+
+#menu-ui button:hover {
+  background: #4a4a4a;
+  border-top-color: var(--gold);
+  border-left-color: var(--gold);
+  color: var(--gold);
+}
+
+#menu-ui button:active {
+  background: #2a2a2a;
+  border-top-color: #111;
+  border-left-color: #111;
+  border-right-color: #666;
+  border-bottom-color: #666;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   9. PLAYER HAND
+════════════════════════════════════════════════════════════ */
+#player-hand {
+  position: fixed;
+  bottom: -22px;
+  right: -22px;
+  width: 290px;
+  height: 290px;
+  object-fit: contain;
+  pointer-events: none;
+  z-index: 100;
+  transform-origin: bottom right;
+  image-rendering: pixelated;
+  filter: drop-shadow(-8px 8px 0 rgba(0,0,0,0.5));
+  transition: transform 0.15s ease-out;
+}
+
+.swing-anim {
+  animation: swing 0.22s ease-in-out forwards;
+}
+
+@keyframes swing {
+  0%   { transform: rotate(0deg)   translateY(0px)  translateX(0px); }
+  40%  { transform: rotate(-55deg) translateY(44px) translateX(-55px); }
+  100% { transform: rotate(0deg)   translateY(0px)  translateX(0px); }
+}
+
+.swing-continuous {
+  animation: swingLoop 0.28s infinite alternate ease-in-out;
+}
+
+@keyframes swingLoop {
+  0%   { transform: rotate(0deg)   translateY(0px)  translateX(0px); }
+  100% { transform: rotate(-48deg) translateY(36px) translateX(-44px); }
+}
+
+.bob-anim {
+  animation: bob 0.55s infinite alternate ease-in-out;
+}
+
+@keyframes bob {
+  0%   { transform: translateY(0px)  rotate(0deg); }
+  100% { transform: translateY(20px) rotate(-3deg); }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   10. CHAT
+════════════════════════════════════════════════════════════ */
+#chat {
+  position: fixed;
+  bottom: 116px;
+  left: 18px;
+  width: 320px;
+  pointer-events: auto;
+  z-index: 150;
+}
+
+#chatMessages {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-height: 180px;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+
+.chatMsg {
+  background: rgba(0, 0, 0, 0.7);
+  padding: 5px 9px;
+  color: #fff;
+  font-size: 8px;
+  letter-spacing: 0.5px;
+  line-height: 1.6;
+  border-left: 3px solid var(--green-hud);
+  text-shadow: 1px 1px 0 #000;
+  animation: fadeChat 8s forwards;
+}
+
+@keyframes fadeChat {
+  0%   { opacity: 1; }
+  80%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+#chatInput {
+  width: 100%;
+  padding: 7px 9px;
+  background: rgba(0, 0, 0, 0.88);
+  border-top: 2px solid #555;
+  border-left: 2px solid #555;
+  border-right: 2px solid #111;
+  border-bottom: 2px solid #111;
+  color: #fff;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  outline: none;
+  display: none;
+  pointer-events: auto;
+  letter-spacing: 0.5px;
+}
+
+#chatInput:focus {
+  border-top-color: var(--green-hud);
+  border-left-color: var(--green-hud);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   11. SETTINGS MENU
+════════════════════════════════════════════════════════════ */
+#settingsMenu {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 340px;
+  background: var(--ui-base);
+  border-top: 2px solid var(--border-light);
+  border-left: 2px solid var(--border-light);
+  border-right: 2px solid var(--border-dark);
+  border-bottom: 2px solid var(--border-dark);
+  padding: 28px 24px;
+  color: #ddd;
+  display: none;
+  pointer-events: auto;
+  z-index: 10000;
+}
+
+#settingsMenu h2 {
+  text-align: center;
+  margin-bottom: 24px;
+  font-size: 11px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: #fff;
+  text-shadow: 1px 1px 0 #000;
+}
+
+#settingsMenu label {
+  display: block;
+  margin-bottom: 20px;
+  font-size: 8px;
+  color: #bbb;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+#settingsMenu input[type="range"] {
+  width: 100%;
+  margin-top: 10px;
+  appearance: none;
+  height: 4px;
+  background: #111;
+  border-top: 2px solid #333;
+  border-left: 2px solid #333;
+  border-right: 2px solid #555;
+  border-bottom: 2px solid #555;
+  outline: none;
+}
+
+#settingsMenu input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  background: var(--green-hud);
+  border-top: 2px solid #7fffaa;
+  border-left: 2px solid #7fffaa;
+  border-right: 2px solid #2aaa60;
+  border-bottom: 2px solid #2aaa60;
+  cursor: pointer;
+}
+
+#settingsMenu input[type="range"]::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  background: var(--green-hud);
+  border-top: 2px solid #7fffaa;
+  border-left: 2px solid #7fffaa;
+  border-right: 2px solid #2aaa60;
+  border-bottom: 2px solid #2aaa60;
+  cursor: pointer;
+}
+
+#settingsMenu button {
+  width: 100%;
+  margin-top: 14px;
+  padding: 10px;
+  background: #3a3a3a;
+  border-top: 2px solid #666;
+  border-left: 2px solid #666;
+  border-right: 2px solid #111;
+  border-bottom: 2px solid #111;
+  color: #e0e0e0;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+#settingsMenu button:hover {
+  background: #4a4a4a;
+  border-top-color: var(--gold);
+  border-left-color: var(--gold);
+  color: var(--gold);
+}
+
+#settingsMenu button:active {
+  background: #2a2a2a;
+  border-top-color: #111;
+  border-left-color: #111;
+  border-right-color: #666;
+  border-bottom-color: #666;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   12. TOOLTIP — Minecraft keskin kenarlı, retro
+════════════════════════════════════════════════════════════ */
+.item-tooltip {
+  position: fixed;
+  background: var(--ui-dark);
+  border-top: 2px solid #7a3aaa;
+  border-left: 2px solid #7a3aaa;
+  border-right: 2px solid #2a0a4a;
+  border-bottom: 2px solid #2a0a4a;
+  /* İç kenet çizgisi — Minecraft tooltip efekti */
+  outline: 2px solid #1a1a1a;
+  outline-offset: -4px;
+  padding: 8px 10px;
+  color: #fff;
+  font-size: 7px;
+  pointer-events: none;
+  z-index: 9998;
+  max-width: 200px;
+  line-height: 1.8;
+  min-width: 120px;
+}
+
+.tooltip-name {
+  color: var(--gold);
+  font-size: 8px;
+  margin-bottom: 5px;
+  text-shadow: 1px 1px 0 #000;
+  text-transform: capitalize;
+  display: block;
+}
+
+.tooltip-durability {
+  color: #aaa;
+  font-size: 7px;
+  margin-bottom: 4px;
+  line-height: 1.6;
+}
+
+/* Tooltip dayanıklılık çubuğu */
+.tooltip-dur-bar {
+  width: 100%;
+  height: 3px;
+  background: #111;
+  border: 1px solid #000;
+  margin-top: 3px;
+  overflow: hidden;
+}
+
+.tooltip-dur-fill {
+  height: 100%;
+}
+
+.tooltip-lore {
+  color: #a070d0;
+  font-size: 6px;
+  margin-top: 5px;
+  border-top: 1px solid #2a2a2a;
+  padding-top: 4px;
+  line-height: 1.9;
+  font-style: italic;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   13. HEALTH BAR
+════════════════════════════════════════════════════════════ */
+#healthBar {
+  position: absolute;
+  bottom: 90px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 220px;
+  height: 14px;
+  background: #111;
+  border-top: 2px solid #444;
+  border-left: 2px solid #444;
+  border-right: 2px solid #111;
+  border-bottom: 2px solid #111;
+  overflow: hidden;
+}
+
+#healthBar::after {
+  content: "";
+  display: block;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(90deg, #cc2222, #ff4a4a);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   14. PLAYER HAND (canvas fallback)
+════════════════════════════════════════════════════════════ */
+#handCanvas {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 320px;
+  height: 320px;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   15. DAMAGE FLASH
+════════════════════════════════════════════════════════════ */
+#damage-flash {
+  position: fixed;
+  inset: 0;
+  background: rgba(220, 30, 30, 0);
+  pointer-events: none;
+  z-index: 8999;
+}
+
+.damage-flash-anim {
+  animation: dmgFlash 0.25s ease-out forwards;
+}
+
+@keyframes dmgFlash {
+  0%   { background: rgba(220, 30, 30, 0.45); }
+  100% { background: rgba(220, 30, 30, 0); }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   16. ITEM PICKUP ANIMATION
+════════════════════════════════════════════════════════════ */
+@keyframes itemPickup {
+  0%   { opacity: 1; transform: translateY(0); }
+  60%  { opacity: 1; transform: translateY(-20px); }
+  100% { opacity: 0; transform: translateY(-36px); }
+}
+
+.pickup-label {
+  position: fixed;
+  color: #fff;
+  font-size: 8px;
+  text-shadow: 1px 1px 0 #000;
+  pointer-events: none;
+  animation: itemPickup 1s ease forwards;
+  z-index: 9990;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   17. LOADING SCREEN
+════════════════════════════════════════════════════════════ */
+#loading-screen {
+  position: fixed;
+  inset: 0;
+  background: #0a0a0a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 9000;
+}
+
+#loading-screen .loading-title {
+  font-size: 12px;
+  color: var(--gold);
+  text-shadow: 2px 2px 0 #000;
+  margin-bottom: 28px;
+  letter-spacing: 4px;
+}
+
+#loading-bar-bg {
+  width: 360px;
+  height: 12px;
+  background: #111;
+  border-top: 2px solid #444;
+  border-left: 2px solid #444;
+  border-right: 2px solid #111;
+  border-bottom: 2px solid #111;
+  overflow: hidden;
+}
+
+#loading-bar {
+  height: 100%;
+  width: 0%;
+  background: var(--green-hud);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   18. SCROLLBAR
+════════════════════════════════════════════════════════════ */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #3a3a3a transparent;
+}
+
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: #111; }
+::-webkit-scrollbar-thumb { background: #3a3a3a; }
+::-webkit-scrollbar-thumb:hover { background: #555; }
+
+/* ═══════════════════════════════════════════════════════════
+   19. UTILITY
+════════════════════════════════════════════════════════════ */
+#hotbar-container,
+#inventory-screen,
+#crafting-screen,
+#furnace-screen,
+#settingsMenu,
+#main-menu,
+#chat {
+  user-select: none;
+}
+
+/* ─── END OF HYPERS MASTER STYLESHEET v2 ─── */
