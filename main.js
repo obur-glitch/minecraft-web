@@ -251,7 +251,7 @@ renderer.setPixelRatio(devicePixelRatio);
 renderer.setSize(innerWidth, innerHeight);
 renderer.setClearColor(0x87CEEB);
 document.body.appendChild(renderer.domElement);
-scene.fog = new THREE.FogExp2(0x87CEEB, 0.010);
+scene.fog = new THREE.FogExp2(0x87CEEB, 0.020);
 
 const ambientLight = new THREE.AmbientLight(0xffffff, 2.5);
 scene.add(ambientLight);
@@ -293,7 +293,7 @@ const blockTextures = {
 
 const texCache = {};
 function getTex(name) {
-    if (!texCache[name]) texCache[name] = loadTex(`assets/textures/block/${name}.png`);
+    if (!texCache[name]) texCache[name] = loadTex(`block/${name}.png`);
     return texCache[name];
 }
 
@@ -314,7 +314,7 @@ const mats = new Proxy({}, {
     get(_, key) { return getBlockMats(key); }
 });
 
-const destroyTextures = Array.from({ length: 9 }, (_, i) => loadTex(`assets/textures/block/destroy_stage_${i}.png`));
+const destroyTextures = Array.from({ length: 9 }, (_, i) => loadTex(`block/destroy_stage_${i}.png`));
 let destroyOverlay = null;
 
 const geo = new THREE.BoxGeometry(1, 1, 1);
@@ -323,46 +323,46 @@ const geo = new THREE.BoxGeometry(1, 1, 1);
 // 5. TEXTURE MAP (UI için)
 // ──────────────────────────────────────────────────────────
 const textureMap = {
-    dirt:           'assets/textures/texturemap/Dirt_texturemap.png',
-    stone:          'assets/textures/texturemap/stone_texturemap.png',
-    log:            'assets/textures/texturemap/oak_log_texturemap.png',
-    leaves:         'assets/textures/texturemap/leaves_texturemap.png',
-    grass:          'assets/textures/texturemap/Grass_Block_texturemap.png',
-    plank:          'assets/textures/texturemap/oak_planks_texturemap.png',
-    crafting_table: 'assets/textures/texturemap/Crafting_Table_texturemap.png',
-    furnace:        'assets/textures/texturemap/Furnace_texturemap.png',
-    iron:           'assets/textures/texturemap/raw_iron_texturemap.png',
-    gold:           'assets/textures/texturemap/raw_gold_texturemap.png',
-    coal:           'assets/textures/texturemap/coal_texturemap.png',
-    diamond:        'assets/textures/texturemap/diamond_texturemap.png',
-    copper:         'assets/textures/texturemap/raw_copper_texturemap.png',
-    stick:          'assets/textures/texturemap/Stick_texturemap.png',
-    wood_pickaxe:   'assets/textures/texturemap/wooden_pickaxe_texturemap.png',
-    wood_axe:       'assets/textures/texturemap/wooden_axe_texturemap.png',
-    wood_shovel:    'assets/textures/texturemap/wooden_shovel_texturemap.png',
-    wood_sword:     'assets/textures/texturemap/wooden_sword_texturemap.png',
-    stone_pickaxe:  'assets/textures/texturemap/stone_pickaxe_texturemap.png',
-    stone_axe:      'assets/textures/texturemap/stone_axe_texturemap.png',
-    stone_shovel:   'assets/textures/texturemap/stone_shovel_texturemap.png',
-    stone_sword:    'assets/textures/texturemap/stone_sword_texturemap.png',
-    iron_pickaxe:   'assets/textures/texturemap/iron_pickaxe_texturemap.png',
-    iron_axe:       'assets/textures/texturemap/iron_axe_texturemap.png',
-    iron_shovel:    'assets/textures/texturemap/iron_shovel_texturemap.png',
-    iron_sword:     'assets/textures/texturemap/iron_sword_texturemap.png',
-    gold_pickaxe:   'assets/textures/texturemap/golden_pickaxe_texturemap.png',
-    gold_axe:       'assets/textures/texturemap/golden_axe_texturemap.png',
-    gold_shovel:    'assets/textures/texturemap/golden_shovel_texturemap.png',
-    gold_sword:     'assets/textures/texturemap/golden_sword_texturemap.png',
-    diamond_pickaxe:'assets/textures/texturemap/diamond_pickaxe_texturemap.png',
-    diamond_axe:    'assets/textures/texturemap/diamond_axe_texturemap.png',
-    diamond_shovel: 'assets/textures/texturemap/diamond_shovel_texturemap.png',
-    diamond_sword:  'assets/textures/texturemap/diamond_sword_texturemap.png',
-    copper_pickaxe: 'assets/textures/texturemap/copper_pickaxe_texturemap.png',
-    copper_axe:     'assets/textures/texturemap/copper_axe_texturemap.png',
-    copper_shovel:  'assets/textures/texturemap/copper_shovel_texturemap.png',
-    copper_sword:   'assets/textures/texturemap/copper_sword_texturemap.png',
-    sand:           'assets/textures/texturemap/sand_texturemap.png',
-    snow:           'assets/textures/texturemap/snow_texturemap.png',
+    dirt:           'texturemap/Dirt_texturemap.png',
+    stone:          'texturemap/stone_texturemap.png',
+    log:            'texturemap/oak_log_texturemap.png',
+    leaves:         'texturemap/leaves_texturemap.png',
+    grass:          'texturemap/Grass_Block_texturemap.png',
+    plank:          'texturemap/oak_planks_texturemap.png',
+    crafting_table: 'texturemap/Crafting_Table_texturemap.png',
+    furnace:        'texturemap/Furnace_texturemap.png',
+    iron:           'texturemap/raw_iron_texturemap.png',
+    gold:           'texturemap/raw_gold_texturemap.png',
+    coal:           'texturemap/coal_texturemap.png',
+    diamond:        'texturemap/diamond_texturemap.png',
+    copper:         'texturemap/raw_copper_texturemap.png',
+    stick:          'texturemap/Stick_texturemap.png',
+    wood_pickaxe:   'texturemap/wooden_pickaxe_texturemap.png',
+    wood_axe:       'texturemap/wooden_axe_texturemap.png',
+    wood_shovel:    'texturemap/wooden_shovel_texturemap.png',
+    wood_sword:     'texturemap/wooden_sword_texturemap.png',
+    stone_pickaxe:  'texturemap/stone_pickaxe_texturemap.png',
+    stone_axe:      'texturemap/stone_axe_texturemap.png',
+    stone_shovel:   'texturemap/stone_shovel_texturemap.png',
+    stone_sword:    'texturemap/stone_sword_texturemap.png',
+    iron_pickaxe:   'texturemap/iron_pickaxe_texturemap.png',
+    iron_axe:       'texturemap/iron_axe_texturemap.png',
+    iron_shovel:    'texturemap/iron_shovel_texturemap.png',
+    iron_sword:     'texturemap/iron_sword_texturemap.png',
+    gold_pickaxe:   'texturemap/golden_pickaxe_texturemap.png',
+    gold_axe:       'texturemap/golden_axe_texturemap.png',
+    gold_shovel:    'texturemap/golden_shovel_texturemap.png',
+    gold_sword:     'texturemap/golden_sword_texturemap.png',
+    diamond_pickaxe:'texturemap/diamond_pickaxe_texturemap.png',
+    diamond_axe:    'texturemap/diamond_axe_texturemap.png',
+    diamond_shovel: 'texturemap/diamond_shovel_texturemap.png',
+    diamond_sword:  'texturemap/diamond_sword_texturemap.png',
+    copper_pickaxe: 'texturemap/copper_pickaxe_texturemap.png',
+    copper_axe:     'texturemap/copper_axe_texturemap.png',
+    copper_shovel:  'texturemap/copper_shovel_texturemap.png',
+    copper_sword:   'texturemap/copper_sword_texturemap.png',
+    sand:           'texturemap/sand_texturemap.png',
+    snow:           'texturemap/snow_texturemap.png',
 };
 
 // ──────────────────────────────────────────────────────────
@@ -1714,7 +1714,7 @@ function handleBlockBreaking(delta) {
 const particles = [];
 
 function spawnParticles(pos, type) {
-    const tex = loader.load(textureMap[type] || 'assets/textures/block/dirt.png');
+    const tex = loader.load(textureMap[type] || 'block/dirt.png');
     for (let i = 0; i < 12; i++) {
         const mat = new THREE.MeshBasicMaterial({ map: tex, transparent: true });
         const p   = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.12, 0.12), mat);
